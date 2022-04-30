@@ -1,8 +1,8 @@
-/* eslint-disable no-alert */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Button from '@mui/material/Button';
+import { withSnackbar } from 'notistack';
 import copy from 'clipboard-copy';
 import IncludeSlider from '../components/IncludeSlider';
 import IncludeSwitch from '../components/IncludeSwitch';
@@ -29,8 +29,9 @@ class PasswordGenerator extends React.Component {
   }
 
   handleCopy({ target }) {
+    const { enqueueSnackbar } = this.props;
+    enqueueSnackbar('Senha copiada para área de transferência!', { variant: 'success' });
     copy(target.innerText);
-    alert('Senha copiada para área de transferência');
   }
 
   render() {
@@ -95,6 +96,7 @@ const mapStateToProps = ({ password }) => ({
 
 PasswordGenerator.propTypes = {
   password: PropTypes.objectOf(PropTypes.any).isRequired,
+  enqueueSnackbar: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps)(PasswordGenerator);
+export default withSnackbar(connect(mapStateToProps)(PasswordGenerator));

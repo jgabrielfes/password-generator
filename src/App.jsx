@@ -1,5 +1,6 @@
 import React from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { SnackbarProvider } from 'notistack';
 import PasswordGenerator from './pages/PasswordGenerator';
 
 const theme = createTheme({
@@ -17,7 +18,9 @@ class App extends React.Component {
   render() {
     return (
       <ThemeProvider theme={ theme }>
-        <PasswordGenerator />
+        <SnackbarProvider maxSnack={ 3 }>
+          <PasswordGenerator />
+        </SnackbarProvider>
       </ThemeProvider>
     );
   }
