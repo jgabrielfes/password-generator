@@ -14,16 +14,14 @@ const theme = createTheme({
   },
 });
 
-class App extends React.Component {
-  render() {
-    return (
-      <ThemeProvider theme={ theme }>
-        <SnackbarProvider maxSnack={ 3 }>
-          <PasswordGenerator />
-        </SnackbarProvider>
-      </ThemeProvider>
-    );
-  }
+function App() {
+  return (
+    <ThemeProvider theme={ theme }>
+      <SnackbarProvider maxSnack={ 3 }>
+        <PasswordGenerator />
+      </SnackbarProvider>
+    </ThemeProvider>
+  );
 }
 
 export default App;

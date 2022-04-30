@@ -4,26 +4,23 @@ import { connect } from 'react-redux';
 import { changeInclude } from '../redux/actions';
 import Switch from '@mui/material/Switch';
 
-class IncludeSwitch extends React.Component {
-  render() {
-    const { name, defaultChecked, setInclude } = this.props;
-    return (
-      <label htmlFor={ `switch-${name}` }>
-        Include {name}
-        <Switch
-          id={ `switch-${name}` }
-          color="secondary"
-          defaultChecked={ defaultChecked }
-          onChange={ ({ target }) => setInclude(name.toLowerCase(), target.checked) }
-        />
-      </label>
-    );
-  }
+function IncludeSwitch({ name, defaultChecked, setInclude }) {
+  return (
+    <label htmlFor={ `switch-${name}` }>
+      Include {name}
+      <Switch
+        id={ `switch-${name}` }
+        color="secondary"
+        defaultChecked={ defaultChecked }
+        onChange={ ({ target }) => setInclude(name.toLowerCase(), target.checked) }
+      />
+    </label>
+  );
 }
 
 IncludeSwitch.propTypes = {
   name: PropTypes.string.isRequired,
-  defaultChecked: PropTypes.bool.isRequired,
+  defaultChecked: PropTypes.bool,
   setInclude: PropTypes.func.isRequired,
 };
 

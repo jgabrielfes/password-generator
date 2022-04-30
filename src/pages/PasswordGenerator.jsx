@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Button from '@mui/material/Button';
@@ -9,93 +9,84 @@ import IncludeSwitch from '../components/IncludeSwitch';
 import getRandomPassword from '../services/generatePassword';
 import '../styles/PasswordGenerator.css';
 
-class PasswordGenerator extends React.Component {
-  constructor() {
-    super();
-    this.handleGenerate = this.handleGenerate.bind(this);
-    this.handleCopy = this.handleCopy.bind(this);
+function PasswordGenerator({ passwordSettings, enqueueSnackbar }) {
+  const [password, setPassword] = useState(localStorage.password
+    || 'CLICK GENERATE');
 
-    this.state = {
-      lastPassword: localStorage.lastPassword
-        ? localStorage.lastPassword : 'CLICK GENERATE',
-    };
-  }
+  const handleGenerate = () => {
+    const newPassword = getRandomPassword(passwordSettings);
+    if (newPassword) localStorage.password = newPassword;
+    setPassword(newPassword);
+  };
 
-  handleGenerate() {
-    const { password } = this.props;
-    const lastPassword = getRandomPassword(password);
-    if (lastPassword) localStorage.lastPassword = lastPassword;
-    this.setState({ lastPassword });
-  }
+  const handleCopy = ({ target }) => {
+    if (target.innerText === 'CLICK GENERATE') {
+      enqueueSnackbar('Você precisa gerar uma senha primeiro.', { variant: 'error' });
+    } else {
+      enqueueSnackbar('Senha copiada para área de transferência!',
+        { variant: 'success' });
+      copy(target.innerText);
+    }
+  };
 
-  handleCopy({ target }) {
-    const { enqueueSnackbar } = this.props;
-    enqueueSnackbar('Senha copiada para área de transferência!', { variant: 'success' });
-    copy(target.innerText);
-  }
-
-  render() {
-    const { password } = this.props;
-    const { lastPassword } = this.state;
-
-    return (
-      <section className="password-generator-container">
-        <h1>Password Generator</h1>
-        <Button
-          color="secondary"
-          variant="contained"
-          sx={ {
-            backgroundColor: '#1e223f',
-            borderRadius: '8px',
-            fontSize: '1em',
-            height: '3.1em',
-            textTransform: 'none',
-          } }
-          onClick={ this.handleCopy }
-        >
-          {lastPassword || 'Can\'t generate'}
-        </Button>
-        <section className="password-generator-subcontainer">
-          <span>
-            LENGTH:
-            {' '}
-            <span>{ password.length }</span>
-          </span>
-          <IncludeSlider />
-        </section>
-        <section className="password-generator-subcontainer">
-          <span>
-            SETTINGS
-          </span>
-          <IncludeSwitch name="Uppercase" defaultChecked />
-          <IncludeSwitch name="Lowercase" defaultChecked />
-          <IncludeSwitch name="Numbers" defaultChecked />
-          <IncludeSwitch name="Symbols" />
-        </section>
-        <Button
-          variant="contained"
-          sx={ {
-            backgroundColor: 'transparent',
-            backgroundImage: 'linear-gradient(90deg, #697ee1, #6f52a1)',
-            fontFamily: 'sans-serif',
-            fontWeight: '700',
-            height: '3.1em',
-          } }
-          onClick={ this.handleGenerate }
-        >
-          Generate Password
-        </Button>
+  return (
+    <section className="password-generator-container">
+      <h1>Password Generator</h1>
+      <Button
+        color="secondary"
+        variant="contained"
+        sx={ {
+          backgroundColor: '#1e223f',
+          borderRadius: '8px',
+          fontSize: '1em',
+          height: '3.1em',
+          overflow: 'hidden',
+          textTransform: 'none',
+        } }
+        onClick={ handleCopy }
+      >
+        {password || 'Can\'t generate'}
+      </Button>
+      <section className="password-generator-subcontainer">
+        <span>
+          LENGTH:
+          {' '}
+          <span>{ passwordSettings.length }</span>
+        </span>
+        <IncludeSlider />
       </section>
-    );
-  }
+      <section className="password-generator-subcontainer">
+        <span>
+          SETTINGS
+        </span>
+        <IncludeSwitch name="Uppercase" defaultChecked />
+        <IncludeSwitch name="Lowercase" defaultChecked />
+        <IncludeSwitch name="Numbers" defaultChecked />
+        <IncludeSwitch name="Symbols" />
+      </section>
+      <Button
+        variant="contained"
+        sx={ {
+          backgroundColor: 'transparent',
+          backgroundImage: 'linear-gradient(90deg, #697ee1, #6f52a1)',
+          fontFamily: 'sans-serif',
+          fontWeight: '700',
+          height: '3.1em',
+        } }
+        onClick={ handleGenerate }
+      >
+        Generate Password
+      </Button>
+    </section>
+  );
 }
 
 const mapStateToProps = ({ password }) => ({
-  password,
+  passwordSettings: password,
 });
 
 PasswordGenerator.propTypes = {
-  password: PropTypes.objectOf(PropTypes.any).isRequired,
+  passwordSettings: PropTypes.objectOf(PropTypes.any).isRequired,
   enqueueSnackbar: PropTypes.func.isRequired,
 };
 

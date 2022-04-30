@@ -16,7 +16,7 @@ describe('2. Testa as senhas geradas', () => {
     renderWithRedux(<App />);
     const generateBtn = screen.getByRole('button', { name: GENERATE_TEXT });
     fireEvent.click(generateBtn);
-    expect(localStorage.lastPassword).not.toBeUndefined();
+    expect(localStorage.password).not.toBeUndefined();
   });
   test('Se a senha não é gerada quando nenhuma configuração é selecionada.', () => {
     renderWithRedux(<App />);
@@ -29,7 +29,7 @@ describe('2. Testa as senhas geradas', () => {
     fireEvent.click(numbers);
     const generateBtn = screen.getByRole('button', { name: GENERATE_TEXT });
     fireEvent.click(generateBtn);
-    expect(localStorage.lastPassword).toBeUndefined();
+    expect(localStorage.password).toBeUndefined();
   });
   test('Se é gerada com o tamanho correto.', () => {
     renderWithRedux(<App />);
@@ -37,7 +37,7 @@ describe('2. Testa as senhas geradas', () => {
     fireEvent.change(length, { target: { value: '32' } });
     const generateBtn = screen.getByRole('button', { name: GENERATE_TEXT });
     fireEvent.click(generateBtn);
-    expect(localStorage.lastPassword.length).toBe(LENGTH_TEST);
+    expect(localStorage.password.length).toBe(LENGTH_TEST);
   });
   test('Se é gerada somente com maiúsculas.', () => {
     renderWithRedux(<App />);
@@ -47,7 +47,7 @@ describe('2. Testa as senhas geradas', () => {
     fireEvent.click(numbers);
     const generateBtn = screen.getByRole('button', { name: GENERATE_TEXT });
     fireEvent.click(generateBtn);
-    expect(/^[A-Z]+$/.test(localStorage.lastPassword)).toBe(true);
+    expect(/^[A-Z]+$/.test(localStorage.password)).toBe(true);
   });
   test('Se é gerada somente com minúsculas.', () => {
     renderWithRedux(<App />);
@@ -59,7 +59,7 @@ describe('2. Testa as senhas geradas', () => {
     fireEvent.click(numbers);
     const generateBtn = screen.getByRole('button', { name: GENERATE_TEXT });
     fireEvent.click(generateBtn);
-    expect(/^[a-z]+$/.test(localStorage.lastPassword)).toBe(true);
+    expect(/^[a-z]+$/.test(localStorage.password)).toBe(true);
   });
   test('Se é gerada somente com números.', () => {
     renderWithRedux(<App />);
@@ -69,7 +69,7 @@ describe('2. Testa as senhas geradas', () => {
     fireEvent.click(lowercase);
     const generateBtn = screen.getByRole('button', { name: GENERATE_TEXT });
     fireEvent.click(generateBtn);
-    expect(/^[0-9]+$/.test(localStorage.lastPassword)).toBe(true);
+    expect(/^[0-9]+$/.test(localStorage.password)).toBe(true);
   });
   test('Se é gerada somente com símbolos.', () => {
     renderWithRedux(<App />);
@@ -83,9 +83,9 @@ describe('2. Testa as senhas geradas', () => {
     fireEvent.click(symbols);
     const generateBtn = screen.getByRole('button', { name: GENERATE_TEXT });
     fireEvent.click(generateBtn);
-    expect(/^[A-Z]+$/.test(localStorage.lastPassword)).toBe(false);
-    expect(/^[a-z]+$/.test(localStorage.lastPassword)).toBe(false);
-    expect(/^[0-9]+$/.test(localStorage.lastPassword)).toBe(false);
+    expect(/^[A-Z]+$/.test(localStorage.password)).toBe(false);
+    expect(/^[a-z]+$/.test(localStorage.password)).toBe(false);
+    expect(/^[0-9]+$/.test(localStorage.password)).toBe(false);
   });
   test('Se é gerada todos com os tipos.', () => {
     renderWithRedux(<App />);
@@ -93,6 +93,6 @@ describe('2. Testa as senhas geradas', () => {
     fireEvent.click(symbols);
     const generateBtn = screen.getByRole('button', { name: GENERATE_TEXT });
     fireEvent.click(generateBtn);
-    expect(REGEX_ALL.test(localStorage.lastPassword)).toBe(true);
+    expect(REGEX_ALL.test(localStorage.password)).toBe(true);
   });
 });

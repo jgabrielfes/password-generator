@@ -5,35 +5,31 @@ import { changeLength } from '../redux/actions';
 import Slider from '@mui/material/Slider';
 import '../styles/IncludeSlider.css';
 
-class IncludeSlider extends React.Component {
-  render() {
-    const { setLength } = this.props;
-
-    return (
-      <div className="password-slider-container">
-        <span>4</span>
-        <Slider
-          defaultValue={ 16 }
-          min={ 4 }
-          max={ 32 }
-          sx={ {
-            height: '2px',
-            '& .MuiSlider-thumb': {
-              backgroundColor: 'white',
-            },
-            '& .MuiSlider-track': {
-              border: 'none',
-            },
-            '& .MuiSlider-rail': {
-              backgroundColor: '#bfbfbf',
-            },
-          } }
-          onChange={ ({ target }) => setLength(target.value) }
-        />
-        <span>32</span>
-      </div>
-    );
-  }
+function IncludeSlider({ setLength }) {
+  return (
+    <div className="password-slider-container">
+      <span>4</span>
+      <Slider
+        defaultValue={ 16 }
+        min={ 4 }
+        max={ 32 }
+        sx={ {
+          height: '2px',
+          '& .MuiSlider-thumb': {
+            backgroundColor: 'white',
+          },
+          '& .MuiSlider-track': {
+            border: 'none',
+          },
+          '& .MuiSlider-rail': {
+            backgroundColor: '#bfbfbf',
+          },
+        } }
+        onChange={ ({ target }) => setLength(target.value) }
+      />
+      <span>32</span>
+    </div>
+  );
 }
 
 const mapDispatchToProps = (dispatch) => ({
