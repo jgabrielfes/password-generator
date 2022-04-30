@@ -54,15 +54,15 @@ class PasswordGenerator extends React.Component {
         >
           {lastPassword || 'Can\'t generate'}
         </Button>
-        <div className="password-generator-subcontainer">
+        <section className="password-generator-subcontainer">
           <span>
             LENGTH:
             {' '}
             <span>{ password.length }</span>
           </span>
           <IncludeSlider />
-        </div>
-        <div className="password-generator-subcontainer">
+        </section>
+        <section className="password-generator-subcontainer">
           <span>
             SETTINGS
           </span>
@@ -70,7 +70,7 @@ class PasswordGenerator extends React.Component {
           <IncludeSwitch name="Lowercase" defaultChecked />
           <IncludeSwitch name="Numbers" defaultChecked />
           <IncludeSwitch name="Symbols" />
-        </div>
+        </section>
         <Button
           variant="contained"
           sx={ {
